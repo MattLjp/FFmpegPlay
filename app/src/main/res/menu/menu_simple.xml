@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/btn1"
+        android:title="三角形" />
+    <item android:id="@+id/btn2"
+        android:title="矩形" />
+    <item android:id="@+id/btn3"
+        android:title="立方体" />
+    <item android:id="@+id/btn4"
+        android:title="图片" />
+</menu>
