@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.matt.opengllib.drawer.ImageDrawer
-import com.matt.opengllib.render.SimpleRender
+import com.matt.ffmpeglib.drawer.ImageDrawer
+import com.matt.ffmpeglib.render.SimpleRender
 
 /**
  * Created by Liaojp on 2023/2/7.

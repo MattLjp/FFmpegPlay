@@ -9,7 +9,7 @@
         android:title="图片" />
     <item
         android:id="@+id/btn3"
-        android:title="冷色调" />
+        android:title="YUV图片" />
     <item
         android:id="@+id/btn4"
         android:title="暖色调" />

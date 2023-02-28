@@ -1,5 +1,5 @@
 //
-// Created by liaojp on 2023/1/8.
+// Created by Liaojp on 2023/1/8.
 //
 
 #include "player.h"
@@ -8,7 +8,7 @@ Player::~Player() {
     UnInit();
 }
 
-void Player::Init(JNIEnv *jniEnv, jobject obj, char *url, jobject surface, int renderType) {
+void Player::Init(JNIEnv *jniEnv, jobject obj, char *url, jobject surface) {
     jniEnv->GetJavaVM(&m_JavaVM);
     m_JavaObj = jniEnv->NewGlobalRef(obj);
 
@@ -17,7 +17,11 @@ void Player::Init(JNIEnv *jniEnv, jobject obj, char *url, jobject surface, int r
     m_audio_decoder = new AudioDecoder(url);
 
     // 渲染器
-    m_video_render = new NativeRender(jniEnv, surface);
+//    m_video_render = new NativeRender(jniEnv, surface);
+    m_drawer = new VideoDrawer();
+    m_proxyImpl = new DrawerProxyImpl();
+    m_proxyImpl->AddDrawer(m_drawer);
+    m_video_render = new OpenGLRender(jniEnv, m_proxyImpl, surface);
     m_video_decoder->SetVideoRender(m_video_render);
 
     m_audio_render = new OpenSLRender();

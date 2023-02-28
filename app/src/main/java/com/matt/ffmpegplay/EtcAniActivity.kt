@@ -2,8 +2,8 @@ package com.matt.ffmpegplay
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.matt.ffmpeglib.etc.EtcDrawer
 import com.matt.ffmpegplay.databinding.ActivityEtcAniBinding
-import com.matt.opengllib.etc.EtcDrawer
 
 class EtcAniActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEtcAniBinding

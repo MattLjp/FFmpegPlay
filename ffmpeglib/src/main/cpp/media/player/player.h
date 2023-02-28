@@ -1,5 +1,5 @@
 //
-// Created by liaojp on 2023/1/8.
+// Created by Liaojp on 2023/1/8.
 //
 
 #ifndef FFMPEGPLAY_PLAYER_H
@@ -9,7 +9,12 @@
 #include "../decoder/video/video_decoder.h"
 #include "../decoder/audio/audio_decoder.h"
 #include "../render/video/native_render.h"
+#include "../render/video/opengl_render.h"
 #include "../render/audio/opensl_render.h"
+#include "../../opengl/drawer/proxy/DrawerProxy.h"
+#include "../../opengl/drawer/proxy/DrawerProxyImpl.h"
+#include "../../opengl/drawer/Drawer.h"
+#include "../../opengl/drawer/VideoDrawer.h"
 
 #define JAVA_PLAYER_EVENT_CALLBACK_API_NAME "playerEventCallback"
 
@@ -18,6 +23,9 @@ private:
     const char *TAG = "Player";
     VideoDecoder *m_video_decoder;
     VideoRender *m_video_render;
+
+    DrawerProxy *m_proxyImpl;
+    Drawer *m_drawer;
 
     AudioDecoder *m_audio_decoder;
     AudioRender *m_audio_render;
@@ -40,7 +48,7 @@ private:
 public:
     ~Player();
 
-    void Init(JNIEnv *jniEnv, jobject obj, char *url, jobject surface, int renderType);
+    void Init(JNIEnv *jniEnv, jobject obj, char *url, jobject surface);
 
     void UnInit();
 

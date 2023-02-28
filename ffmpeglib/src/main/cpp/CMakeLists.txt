@@ -7,27 +7,36 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 # 1. 定义so库和头文件所在目录，方面后面使用
 set(libname ffmpeglib)
 set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/../cmakeLibs/${ANDROID_ABI})
-set(ffmpeg_head_dir ${CMAKE_SOURCE_DIR}/ffmpeg)
 
 #项目名称
 project("libname")
 
 # 2. 添加头文件目录
 include_directories(
-        ${ffmpeg_head_dir}/include
-        ${CMAKE_SOURCE_DIR}/utils
-        ${CMAKE_SOURCE_DIR}/media/player
-        ${CMAKE_SOURCE_DIR}/media/decoder
-        ${CMAKE_SOURCE_DIR}/media/decoder/audio
-        ${CMAKE_SOURCE_DIR}/media/decoder/video
-        ${CMAKE_SOURCE_DIR}/media/render
-        ${CMAKE_SOURCE_DIR}/media/render/audio
-        ${CMAKE_SOURCE_DIR}/media/render/video
-        ${CMAKE_SOURCE_DIR}/media/encoder
-        ${CMAKE_SOURCE_DIR}/media/encoder/audio
-        ${CMAKE_SOURCE_DIR}/media/encoder/video
-        ${CMAKE_SOURCE_DIR}/media/muxer
-        ${CMAKE_SOURCE_DIR}/media/synthesizer
+        ffmpeg/include
+        glm
+        inc
+        inc/assimp
+        inc/freetype_2_9_1
+        opencv_3_0_0
+
+        utils
+        media/player
+        media/decoder
+        media/decoder/audio
+        media/decoder/video
+        media/render
+        media/render/audio
+        media/render/video
+        media/encoder
+        media/encoder/audio
+        media/encoder/video
+        media/muxer
+
+        opengl
+        opengl/egl
+        opengl/drawer
+        opengl/drawer/proxy
 )
 
 # 3. 添加ffmpeg相关的so库
@@ -73,6 +82,21 @@ set_target_properties(avformat
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libavformat.so)
 
+add_library(assimp SHARED IMPORTED)
+set_target_properties(assimp
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_dir}/libassimp.so)
+
+
+add_library(opencv_java3 SHARED IMPORTED)
+set_target_properties(opencv_java3
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_dir}/libopencv_java3.so)
+
+add_library(freetype STATIC IMPORTED)
+set_target_properties(freetype
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_dir}/libfreetype.a)
 
 # 查找代码中使用到的系统库
 find_library( # Sets the name of the path variable.
@@ -82,6 +106,36 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
+file(GLOB src-files
+        # 工具
+        ${CMAKE_SOURCE_DIR}/utils/*.c
+
+        # 播放器
+        ${CMAKE_SOURCE_DIR}/media/player/*.cpp
+
+        # 解码器
+        ${CMAKE_SOURCE_DIR}/media/decoder/*.cpp
+        ${CMAKE_SOURCE_DIR}/media/decoder/video/*.cpp
+        ${CMAKE_SOURCE_DIR}/media/decoder/audio/*.cpp
+
+        # 编码器
+        ${CMAKE_SOURCE_DIR}/media/encoder/*.cpp
+        ${CMAKE_SOURCE_DIR}/media/encoder/video/*.cpp
+        ${CMAKE_SOURCE_DIR}/media/encoder/audio/*.cpp
+
+        # 打包器
+        ${CMAKE_SOURCE_DIR}/media/muxer/*.cpp
+
+        # 渲染器
+        ${CMAKE_SOURCE_DIR}/media/render/video/*.cpp
+        ${CMAKE_SOURCE_DIR}/media/render/audio/*.cpp
+
+        #Opengl
+        ${CMAKE_SOURCE_DIR}/opengl/*.cpp
+        ${CMAKE_SOURCE_DIR}/opengl/egl/*.cpp
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/*.cpp
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/proxy/*.cpp
+        )
 
 # 配置目标so库编译信息
 add_library( # Sets the name of the library.
@@ -93,50 +147,21 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
         native-lib.cpp
 
-        # 工具
-        ${CMAKE_SOURCE_DIR}/utils/timer.c
-
-        # 播放器
-        ${CMAKE_SOURCE_DIR}/media/player/player.cpp
-
-        # 解码器
-        ${CMAKE_SOURCE_DIR}/media/decoder/base_decoder.cpp
-        ${CMAKE_SOURCE_DIR}/media/decoder/video/video_decoder.cpp
-        ${CMAKE_SOURCE_DIR}/media/decoder/audio/audio_decoder.cpp
-
-        # 编码器
-        ${CMAKE_SOURCE_DIR}/media/encoder/base_encoder.cpp
-        ${CMAKE_SOURCE_DIR}/media/encoder/video/video_encoder.cpp
-        ${CMAKE_SOURCE_DIR}/media/encoder/audio/audio_encoder.cpp
-
-        #        ${CMAKE_SOURCE_DIR}/media/const.h
-
-
-        # 打包器
-        ${CMAKE_SOURCE_DIR}/media/muxer/ff_repack.cpp
-        ${CMAKE_SOURCE_DIR}/media/muxer/mp4_muxer.cpp
-
-        # 渲染器
-        ${CMAKE_SOURCE_DIR}/media/render/video/native_render.cpp
-        #                ${CMAKE_SOURCE_DIR}/media/render/video/opengl_render/opengl_render.cpp
-        ${CMAKE_SOURCE_DIR}/media/render/audio/opensl_render.cpp
-
-        #        # OpenGL EGL核心
-        #        ${CMAKE_SOURCE_DIR}/opengl/egl/egl_core.cpp
-        #        ${CMAKE_SOURCE_DIR}/opengl/egl/egl_surface.cpp
-        #
-        #        # OpenGL绘制器
-        #        ${CMAKE_SOURCE_DIR}/opengl/drawer/drawer.cpp
-        #        ${CMAKE_SOURCE_DIR}/opengl/drawer/video_drawer.cpp
-        #
-        #        # OpenGL绘制代理器
-        #        ${CMAKE_SOURCE_DIR}/opengl/drawer/proxy/drawer_proxy.cpp
-        #        ${CMAKE_SOURCE_DIR}/opengl/drawer/proxy/def_drawer_proxy_impl.cpp
-        #
-        #        #合成器
-        #                ${CMAKE_SOURCE_DIR}/media/synthesizer/synthesizer.cpp
+        ${src-files}
         )
 
+
+set(third-party-libs
+        avutil
+        swresample
+        avcodec
+        avfilter
+        swscale
+        avformat
+        freetype
+        assimp
+        opencv_java3
+        )
 
 # 指定编译目标库时，cmake要链接的库
 target_link_libraries(
@@ -144,19 +169,14 @@ target_link_libraries(
         # 指定目标库，native-lib 是在上面 add_library 中配置的目标库
         ${libname}
 
-        # 4. 连接 FFmpeg 相关的库
-        avutil
-        swresample
-        avcodec
-        avfilter
-        swscale
-        avformat
+        # 连接 FFmpeg 相关的库
+        ${third-party-libs}
 
-        -landroid
+        android
         # 打开opensl es支持
+        EGL
+        GLESv3
         OpenSLES
-        -lEGL
-        -lGLESv2
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib}

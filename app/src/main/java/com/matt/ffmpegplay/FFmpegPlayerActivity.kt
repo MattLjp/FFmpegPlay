@@ -18,7 +18,8 @@ import com.matt.ffmpegplay.databinding.ActivityPlayerBinding
  * Created by Liaojp on 2023/1/8.
  */
 class FFmpegPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback {
-    private val videoPath by lazy { externalCacheDir.toString() + "/matt/one_piece.mp4" }
+    private val videoPath = "http://vfx.mtime.cn/Video/2019/03/19/mp4/190319212559089721.mp4"
+    //    private val videoPath = "http://vfx.mtime.cn/Video/2019/03/21/mp4/190321153853126488.mp4"
 
     private lateinit var binding: ActivityPlayerBinding
     private val ffmpegPlay by lazy { FFmpegPlay() }

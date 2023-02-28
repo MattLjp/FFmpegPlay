@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.matt.opengllib.drawer.IndicesCubeDrawer
-import com.matt.opengllib.drawer.RectangleDrawer
-import com.matt.opengllib.drawer.TextureDrawer
-import com.matt.opengllib.drawer.TriangleDrawer
-import com.matt.opengllib.render.SimpleRender
+import com.matt.ffmpeglib.drawer.IndicesCubeDrawer
+import com.matt.ffmpeglib.drawer.RectangleDrawer
+import com.matt.ffmpeglib.drawer.TextureDrawer
+import com.matt.ffmpeglib.drawer.TriangleDrawer
+import com.matt.ffmpeglib.render.SimpleRender
 
 class SimpleGLSurfaceActivity : AppCompatActivity() {
     private lateinit var glView: GLSurfaceView

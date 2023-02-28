@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 rootProject.name = "FFmpegPlay"
 include ':app'
 include ':ffmpeglib'
-include ':opengllib'

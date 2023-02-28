@@ -1,6 +1,6 @@
 //
 // Mp4混合器
-// Created by liaojp on 2023/1/11.
+// Created by Liaojp on 2023/1/11.
 //
 
 #ifndef FFMPEGPLAY_MP4_MUXER_H

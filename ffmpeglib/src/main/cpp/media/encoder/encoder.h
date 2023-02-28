@@ -1,5 +1,5 @@
 //
-// Created by liaojp on 2023/1/11.
+// Created by Liaojp on 2023/1/11.
 //
 
 #ifndef FFMPEGPLAY_ENCODER_H

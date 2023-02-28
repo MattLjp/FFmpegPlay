@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".EtcAniActivity">
 
-    <com.matt.opengllib.etc.EtcAniView
+    <com.matt.ffmpeglib.etc.EtcAniView
         android:id="@+id/etcAniView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

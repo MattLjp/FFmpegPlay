@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.matt.opengllib.obj.Obj3DView
+    <com.matt.ffmpeglib.obj.Obj3DView
         android:id="@+id/obj3DView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

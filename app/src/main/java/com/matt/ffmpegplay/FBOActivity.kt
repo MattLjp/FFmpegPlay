@@ -9,9 +9,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ImageUtils
+import com.matt.ffmpeglib.drawer.FBODrawer
+import com.matt.ffmpeglib.render.SimpleRender
 import com.matt.ffmpegplay.databinding.ActivityGlSurfaceBinding
-import com.matt.opengllib.drawer.FBODrawer
-import com.matt.opengllib.render.SimpleRender
 import java.nio.ByteBuffer
 
 /**

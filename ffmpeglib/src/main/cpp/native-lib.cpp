@@ -6,6 +6,7 @@
 #include <string>
 #include "utils/LogUtil.h"
 #include "media/player/player.h"
+#include "opengl/OpenglHandler.h"
 
 
 extern "C" {
@@ -50,7 +51,7 @@ Java_com_matt_ffmpeglib_FFmpegPlay_create(JNIEnv *env, jobject thiz, jstring jur
         return -1;
     }
     Player *player = new Player();
-    player->Init(env, thiz, const_cast<char *>(url), surface, 0);
+    player->Init(env, thiz, const_cast<char *>(url), surface);
     env->ReleaseStringUTFChars(jurl, url);
     return reinterpret_cast<jlong>(player);
 }
@@ -86,4 +87,39 @@ Java_com_matt_ffmpeglib_FFmpegPlay_seekToPosition(JNIEnv *env, jobject thiz, jlo
         Player *player = reinterpret_cast<Player *>(player_handle);
         player->SeekToPosition(progress);
     }
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_matt_ffmpeglib_NativeRender_onInit(JNIEnv *env, jobject thiz, jobject surface) {
+    OpenglHandler::GetInstance()->Init(env, surface);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_matt_ffmpeglib_NativeRender_onUnInit(JNIEnv *env, jobject thiz) {
+    OpenglHandler::GetInstance()->DestroyInstance();
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_matt_ffmpeglib_NativeRender_setDrawerType(JNIEnv *env, jobject thiz, jint type) {
+    OpenglHandler::GetInstance()->SetParamsInt(type);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_matt_ffmpeglib_NativeRender_setImageData(JNIEnv *env, jobject thiz, jint format, jint width, jint height,
+                                                  jbyteArray bytes) {
+    int len = env->GetArrayLength(bytes);
+    uint8_t *buf = new uint8_t[len];
+    env->GetByteArrayRegion(bytes, 0, len, reinterpret_cast<jbyte *>(buf));
+    OpenglHandler::GetInstance()->Render(format, width, height, buf, len);
+    delete[] buf;
+    env->DeleteLocalRef(bytes);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_matt_ffmpeglib_NativeRender_onSurfaceChanged(JNIEnv *env, jobject thiz, jint width, jint height) {
+    OpenglHandler::GetInstance()->SetScreenSize(width, height);
 }

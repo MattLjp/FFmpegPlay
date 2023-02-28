@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.matt.ffmpeglib.drawer.IndicesCubeDrawer
+import com.matt.ffmpeglib.drawer.RectangleDrawer
+import com.matt.ffmpeglib.drawer.TextureDrawer
+import com.matt.ffmpeglib.drawer.TriangleDrawer
+import com.matt.ffmpeglib.egl.CustomerGLRenderer
 import com.matt.ffmpegplay.databinding.ActivityEglplayerBinding
-import com.matt.opengllib.drawer.IndicesCubeDrawer
-import com.matt.opengllib.drawer.RectangleDrawer
-import com.matt.opengllib.drawer.TextureDrawer
-import com.matt.opengllib.drawer.TriangleDrawer
-import com.matt.opengllib.egl.CustomerGLRenderer
 
 class EGLPlayerActivity : AppCompatActivity() {
 

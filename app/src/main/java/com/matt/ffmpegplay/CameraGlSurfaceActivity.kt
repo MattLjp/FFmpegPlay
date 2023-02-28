@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ImageUtils
 import com.matt.ffmpegplay.databinding.ActivityCameraGlSurfaceBinding
-import com.matt.opengllib.drawer.CameraDrawer
-import com.matt.opengllib.render.SimpleRender
+import com.matt.ffmpeglib.drawer.CameraDrawer
+import com.matt.ffmpeglib.render.SimpleRender
 import java.nio.ByteBuffer
 
 /**
